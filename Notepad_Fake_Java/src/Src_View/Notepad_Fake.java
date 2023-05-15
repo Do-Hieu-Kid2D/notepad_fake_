@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -74,8 +76,9 @@ public class Notepad_Fake extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
+        jMenu5 = new javax.swing.JMenu();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Notepad_fake");
         setBackground(new java.awt.Color(255, 255, 255));
         setFont(new java.awt.Font(".Vn3DH", 0, 10)); // NOI18N
@@ -298,6 +301,14 @@ public class Notepad_Fake extends javax.swing.JFrame {
 
         mainMenu.add(hhadoioc);
 
+        jMenu5.setText("Play <<");
+        jMenu5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu5MouseClicked(evt);
+            }
+        });
+        mainMenu.add(jMenu5);
+
         setJMenuBar(mainMenu);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -334,26 +345,15 @@ public class Notepad_Fake extends javax.swing.JFrame {
     }//GEN-LAST:event_fileNewActionPerformed
 
     private void fileNewWinDowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileNewWinDowActionPerformed
-        // New Windows -> là chạy 1 trương trình notepad mới! 
         try {
-            // Đường dẫn đến file java.exe
-            String javaBin = "‪C:\\java\\bin\\java.exe";
-
-            // Đường dẫn đến file HelloWorld.java
-            String javaFile = "D:\\WorkSpace\\LEARN_JAVA\\Project\\Notepad_Fake_Java\\src\\Src_View\\Notepad_Fake.java";
-
-            // Tạo một quy trình mới để biên dịch file
-            ProcessBuilder pb = new ProcessBuilder(javaBin, javaFile);
-
-            // Thiết lập đường dẫn thư mục làm việc cho quy trình
-            pb.directory(new File("D:\\WorkSpace\\LEARN_JAVA\\Project\\Notepad_Fake_Java\\src\\Src_View"));
-
-            // Thực thi quy trình
-            Process process = pb.start();
-
-            // Đợi quá trình kết thúc và in ra kết quả
-            //int exitCode = process.waitFor();
-            //System.out.println("Command exited with code: " + exitCode);
+            // Đường dẫn tới file thực thi
+            String fileProject = System.getProperty("user.dir");
+            String fileExe = fileProject + "\\Notepad_Fake_Java.jar";
+            //JOptionPane.showMessageDialog(this,fileProject);      
+            // Tạo một đối tượng ProcessBuilder
+            ProcessBuilder processBuilder = new ProcessBuilder("java", "-jar", fileExe);
+            // Chạy quá trình
+            Process process = processBuilder.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -533,6 +533,24 @@ public class Notepad_Fake extends javax.swing.JFrame {
         txtData.setBackground(d);
     }//GEN-LAST:event_jMenuItem12ActionPerformed
 
+    private void jMenu5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu5MouseClicked
+        try {
+            //String pythonScriptPath = "D:\\WorkSpace\\LEARN_JAVA\\javatest\\Call_py\\src\\call_py\\chuyen.py";
+            String fileProject = System.getProperty("user.dir");
+            String fileExe = fileProject + "\\chuyen.py";
+            ProcessBuilder processBuilder = new ProcessBuilder("python", fileExe, "vi",txtData.getText());
+            Process process = processBuilder.start();
+//            try {
+//                int exitCode = process.waitFor();
+//            } catch (InterruptedException ex) {
+//                Logger.getLogger(Notepad_Fake.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jMenu5MouseClicked
+
     public static void main(String args[]) {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -557,6 +575,7 @@ public class Notepad_Fake extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem11;
